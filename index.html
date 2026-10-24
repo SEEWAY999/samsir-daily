@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sam Sir 每日一題</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@700;900&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: phone-first single column. Today's card dominates; everything else is short and below it. */
+:root{
+  --bg:#F3F4F6; --surface:#FFFFFF; --ink:#141B2D; --muted:#5D6578; --line:#DADDE4;
+  --gold:#9A6F06; --gold-soft:#F6ECD2; --done:#2F7A55; --done-soft:#E2F1E8; --demo:#2D5BA8; --demo-soft:#E3EBF8;
+  --display:"Noto Serif TC","Songti TC",serif; --body:"Noto Sans TC","PingFang HK","PingFang TC","Microsoft JhengHei",sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E1320; --surface:#161D2E; --ink:#EEF0F4; --muted:#9BA3B5; --line:#2A3247;
+  --gold:#E8B43A; --gold-soft:#2E2715; --done:#5FC28F; --done-soft:#17301F; --demo:#8DB2F0; --demo-soft:#18243D; color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1320; --surface:#161D2E; --ink:#EEF0F4; --muted:#9BA3B5; --line:#2A3247;
+  --gold:#E8B43A; --gold-soft:#2E2715; --done:#5FC28F; --done-soft:#17301F; --demo:#8DB2F0; --demo-soft:#18243D; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.7}
+.wrap{max-width:640px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:36px}
+h1,h2{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.3}
+h1{font-size:clamp(26px,7vw,34px);font-weight:900}
+h2{font-size:22px;font-weight:900}
+p{margin:0}
+.eyebrow{font-size:13px;letter-spacing:.1em;color:var(--gold);font-weight:700}
+.lede{color:var(--muted);margin-top:8px}
+section{display:flex;flex-direction:column;gap:14px}
+.note{font-size:14px;color:var(--muted)}
+.tag{display:inline-block;font-size:13px;border-radius:999px;padding:2px 12px;font-weight:700}
+.tag.ask{background:var(--gold-soft);color:var(--ink)}
+.tag.demo{background:var(--demo-soft);color:var(--demo)}
+/* today */
+.today{border:2px solid var(--gold);background:var(--surface);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.dayhead{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.daynum{font-family:var(--display);font-size:28px;font-weight:900}
+.theme{font-size:14px;color:var(--muted)}
+.step{display:flex;gap:14px;align-items:flex-start;padding:16px;border-radius:14px;background:var(--bg)}
+.step.done{background:var(--done-soft)}
+.step input{width:26px;height:26px;margin-top:4px;accent-color:var(--done);flex:none}
+.step .k{font-family:var(--mono);font-size:12px;color:var(--gold)}
+.step .t{font-weight:700}
+.step .s{font-size:14px;color:var(--muted)}
+.q{font-family:var(--display);font-size:22px;font-weight:700;line-height:1.55;margin:6px 0 4px}
+.nav{display:flex;gap:10px;justify-content:space-between}
+button{font:inherit;font-size:15px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:8px 18px;cursor:pointer}
+button:hover{border-color:var(--gold)}
+button:disabled{opacity:.4;cursor:default}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--done);width:0}
+/* lists */
+.plain{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.dont{display:flex;flex-direction:column;gap:8px}
+.dont div{display:flex;gap:10px}
+.dont b{color:var(--done);flex:none}
+.weeks{display:flex;flex-direction:column;gap:6px}
+.wk{display:flex;gap:12px;padding:10px 14px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:15px}
+.wk.now{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+.wk .n{font-family:var(--mono);font-size:13px;color:var(--gold);flex:none;width:4.2em}
+.courses{display:flex;flex-direction:column;gap:10px}
+.courses div{font-size:15px}
+.courses b{display:block}
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+summary{cursor:pointer;font-weight:700}
+.bank{margin-top:10px;display:flex;flex-direction:column;gap:12px}
+.bank h3{font-size:15px;color:var(--gold);margin:0}
+.bank ol{margin:4px 0 0;padding-left:28px;display:flex;flex-direction:column;gap:4px;font-size:15px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">SAM SIR · 每日一題</div>
+    <h1>每天五分鐘，<br>把你的課教給 AI</h1>
+    <p class="lede">之後每一條 AI 短片，都要講得像你本人：你的觀點、你的故事、你的語氣、你不會講的話。這些都在你腦裏，所以我們每天問你一題，你用手機講出來就可以。不用準備，不用寫字。</p>
+  </header>
+
+  <section aria-labelledby="s-today">
+    <h2 id="s-today">今天要做的</h2>
+    <div class="today">
+      <div class="dayhead"><div class="daynum" id="dayNum"></div><div class="theme" id="dayTheme"></div></div>
+      <div class="bar" aria-hidden="true"><i id="prog"></i></div>
+
+      <label class="step" id="t1"><input type="checkbox" id="c1">
+        <div><div class="k">上課時</div><div class="t">照常上課</div><div class="s">助理會幫你錄影，你不用理。今天沒有課，就直接剔走。</div></div></label>
+
+      <label class="step" id="t2"><input type="checkbox" id="c2">
+        <div><div class="k">下課後　約 1 分鐘</div><div class="t">在微信群組錄一段語音</div><div class="s">今天課上哪一刻學員反應最大？你當時講了甚麼？</div></div></label>
+
+      <div class="step" id="t3"><input type="checkbox" id="c3" aria-labelledby="qText">
+        <div style="min-width:0"><div class="k">有空時　3 至 5 分鐘</div>
+          <div class="t">回答今日一題 <span class="tag" id="qType"></span></div>
+          <div class="q" id="qText"></div>
+          <div class="s" id="qHint"></div></div></div>
+
+      <div class="nav"><button id="prev" type="button">上一天</button><button id="next" type="button">下一天</button></div>
+      <p class="note" id="progText"></p>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-how">
+    <h2 id="s-how">怎樣回答</h2>
+    <div class="card">
+      <ol class="plain">
+        <li><span class="tag ask">語音題</span>　在微信群組按住「按住說話」錄音，想到甚麼講甚麼，講廣東話。每段最長 60 秒，斷開了就繼續按住再錄一段。講錯不要緊，不用重錄。</li>
+        <li><span class="tag demo">錄影題</span>　用手機的「相機」錄影（不要用微信裏面的拍攝），像上課一樣講三分鐘。錄好後在微信群組按「＋」→「相冊」選這段影片傳送，並選「原圖」。這一段之後可能直接剪成短片。</li>
+        <li>傳送後，回到這一頁剔一下「完成」。</li>
+      </ol>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-dont">
+    <h2 id="s-dont">你不用做的事</h2>
+    <div class="card dont">
+      <div><b>✓</b><span>不用準備教材，也不用寫任何文件。</span></div>
+      <div><b>✓</b><span>不用想自己有甚麼課可以講。我們會從錄影裏整理出來，每週一給你勾選。</span></div>
+      <div><b>✓</b><span>不用學任何 AI 工具。錄影、轉文字、整理，全部由我們做。</span></div>
+      <div><b>✓</b><span>漏了一天不要緊，下一天繼續就可以。</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-weekly">
+    <h2 id="s-weekly">每週只多兩件事</h2>
+    <div class="card">
+      <ul class="plain">
+        <li><strong>星期一，5 分鐘</strong>：我們傳一份「上週你講過的題目」清單，你回覆留、刪或合併。</li>
+        <li><strong>星期五，15 分鐘</strong>（第三週開始）：我們傳 5 條 AI 寫的短片稿。你逐條講一句：像不像你、哪一句你不會這樣講、為甚麼。</li>
+      </ul>
+      <p class="note" style="margin-top:10px">星期五這一步最重要。你不用講得出規則，只要看到不對時說「不對」，我們就知道你的標準在哪裏。</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-weeks">
+    <h2 id="s-weeks">十二週會問甚麼</h2>
+    <div class="weeks" id="weeks"></div>
+  </section>
+
+  <section aria-labelledby="s-confirm">
+    <h2 id="s-confirm">請你先幫我們確認</h2>
+    <div class="card">
+      <p class="note" style="margin-bottom:10px">以下是我們從網上整理到的課程，請看看有沒有遺漏或錯誤，用語音告訴我們就可以。</p>
+      <div class="courses">
+        <div><b>領導力與團隊管理</b>新時代領導力、協作領導力（精準佈置、績效復盤）、教練式領導、KPI 績效管理、策略規劃與解難</div>
+        <div><b>溝通、影響力與談判</b>AI-Enabled Persuasiveness、影響力與談判、Relation and Collaboration、Storytelling 與演說</div>
+        <div><b>顧問式銷售</b>顧問式銷售特訓班、Elite Consultative Selling</div>
+        <div><b>服務卓越</b>星級客戶服務、神秘顧客評估、服務標準指引</div>
+        <div><b>團隊建設與培訓導師</b>體驗式團隊建設、Train the Trainer</div>
+      </div>
+      <ul class="plain" style="margin-top:14px">
+        <li>你在港台做客席主持的節目，和你那本書的中文名稱是甚麼？</li>
+        <li>你個人培訓過的學員人數，和公司總數，短片裏應該怎樣分開講？</li>
+        <li>舊網站上的課程，哪些是你本人主講的？</li>
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-all">
+    <h2 id="s-all">全部 60 題</h2>
+    <details><summary>想預先看看可以打開</summary><div class="bank" id="bank"></div></details>
+    <p class="note">剔選記錄只存在這部手機的瀏覽器裏。換手機也不要緊，題目會按日期自動顯示。</p>
+  </section>
+</div>
+
+<script>
+const START="2026-10-26"; // 第 1 天（星期一）。如需改日期，告訴團隊即可。
+const WEEKS=["你是誰","你的教學哲學","領導力（一）新主管與佈置任務","領導力（二）團隊、跨世代、低績效","領導力（三）變革、決策、願景","你的工具箱：博弈論、性格心理學、NLP","溝通、影響力與談判","顧問式銷售","服務卓越","團隊建設與講師之道","語言、禁忌與市場","短片判斷"];
+const D="demo",A="ask";
+const Q=[
+ [A,"你為甚麼做企業培訓？當初是甚麼事讓你決定入行？","講具體的人和事就可以。"],
+ [A,"做培訓近二十年，你自己最大的轉變是甚麼？以前怎樣講，現在怎樣講？",""],
+ [A,"你讀 MBA、學 NLP、考催眠治療和生涯教練資格，背後是甚麼想法？哪一樣對你講課影響最大？",""],
+ [A,"你最看不起哪一種培訓或者講師？為甚麼？",""],
+ [A,"學員通常怎樣形容你？你自己會用哪一句說話形容 Sam Sir？",""],
+ [A,"一場好的企業培訓和一場差的，最大分別是甚麼？",""],
+ [A,"你希望學員上完你的課，第二天回到公司做的第一件事是甚麼？",""],
+ [A,"你常說課程要實戰。對你來說，甚麼才算實戰？",""],
+ [A,"成年人學習和學生學習最大的分別是甚麼？你上課怎樣利用這一點？",""],
+ [A,"培訓沒有效果，你覺得通常是誰的問題？",""],
+ [A,"新晉主管最常犯的三個錯是甚麼？你會怎樣點醒他？",""],
+ [D,"示範一次「精準佈置」：一個任務要怎樣交代才清楚？","像上課一樣講三分鐘。"],
+ [A,"SMART 和 PDCA 人人都聽過，你講的時候和別人有甚麼不同？",""],
+ [A,"績效復盤時，主管最常講錯的一句是甚麼？應該怎樣講？",""],
+ [A,"講一個你自己做主管時犯過的錯。",""],
+ [A,"一個團隊不咬弦，你第一步會叫主管做甚麼？",""],
+ [A,"九十後、零零後員工和資深員工之間，最大的誤會在哪裏？",""],
+ [D,"示範講一次 ASK 模型：主管怎樣用它看下屬的長處和短處？","三分鐘。"],
+ [A,"低績效員工，甚麼時候應該幫，甚麼時候應該放手？",""],
+ [D,"示範講 Give & Take：為甚麼最肯付出的員工反而最容易倦怠？","三分鐘。"],
+ [A,"公司變革時員工抗拒，你會叫主管怎樣看待這種抗拒？",""],
+ [D,"示範講黃金圈：資源有限時，主管怎樣決定先做哪個項目？","三分鐘。"],
+ [A,"動態 SWOT 和一般 SWOT 有甚麼不同？",""],
+ [D,"示範一次三段式願景故事，用你自己的團隊做例子。","三分鐘。"],
+ [A,"AI 時代，主管的角色變了甚麼，沒有變甚麼？",""],
+ [D,"示範講囚徒困境，以及它和團隊信任有甚麼關係。","三分鐘。"],
+ [A,"你為甚麼用博弈論講管理和銷售？別的講師很少這樣講，你怎樣看？",""],
+ [A,"性格心理學你用哪一套？你怎樣在一分鐘內看出一個人屬於哪一類？",""],
+ [A,"「心理安全感」在你的課上是甚麼意思？舉一個破壞心理安全感的例子。",""],
+ [A,"NLP 的預設前提，你最常用哪幾條？各舉一個例子。",""],
+ [D,"示範講 VAK：主管怎樣用它讓下屬真正聽得入耳？","三分鐘。"],
+ [A,"你講的 4D／5D 對話是甚麼？和一般溝通技巧有甚麼不同？",""],
+ [D,"示範講 Thomas-Kilmann 衝突模型。你覺得香港人最常用哪一種風格？","三分鐘。"],
+ [A,"談判時你最常教學員的一招是甚麼？",""],
+ [A,"有人說談判講利他很天真，你會怎樣回應？",""],
+ [A,"銷售員由推銷產品變成顧問，最難改的是甚麼？",""],
+ [D,"示範「先跟後帶」：講一句客人的拒絕，再示範你會怎樣回應。","三分鐘。"],
+ [A,"很多人以為自己做到 FAB，其實沒有。差在哪裏？",""],
+ [A,"用性格分析看客人：不同性格的客人，你會怎樣分別開口？",""],
+ [A,"講一個你最難忘的銷售或成交故事。",""],
+ [A,"你講的星級客戶服務，和一般客戶服務差在哪裏？",""],
+ [A,"做神秘顧客評估時，你最常見到前線同事犯甚麼錯？",""],
+ [A,"為甚麼服務標準寫了出來，同事還是不照做？",""],
+ [D,"示範處理一次投訴：客人一開口就罵，你教前線講的第一句是甚麼？","三分鐘。"],
+ [A,"講一個服務做得極好或者極差的真實例子。","不用講公司名。"],
+ [A,"體驗式團隊建設怎樣做，才不會變成只是玩遊戲？",""],
+ [A,"你最喜歡的一個團隊活動是甚麼？它想帶出甚麼道理？",""],
+ [A,"訓練一個新講師，你第一樣教甚麼？",""],
+ [A,"你開場頭三分鐘會做甚麼？學員走神時你怎樣拉他們回來？",""],
+ [A,"你怎樣判斷一個觀點要講多久？一節課你怎樣收尾，最後一句通常講甚麼？",""],
+ [A,"你上課最常講的口頭禪有哪些？","可以問問同事或助理。"],
+ [A,"你講課時哪些字會直接講英文，不會翻譯？",""],
+ [A,"你上課絕對不會講的說話是甚麼？哪些話題你一律不碰？",""],
+ [A,"有甚麼承諾是短片裏絕對不能講的？","例如保證業績提升、保證升職。"],
+ [A,"澳門、東南亞的學員和香港學員比較，有甚麼要特別留意？",""],
+ [A,"如果一條 60 秒短片只能讓觀眾記住一句說話，你會選哪一句？","可以給三句。"],
+ [A,"你看過最討厭的培訓短片是怎樣的？討厭在哪裏？",""],
+ [A,"同一個題目，講給中小企老闆聽和講給大公司 HR 聽，你會怎樣講得不同？",""],
+ [A,"你上電台、上電視、寫書時，講法和上課有甚麼不同？哪一種最接近短片？",""],
+ [A,"如果 AI 用你的名義出了一條短片，甚麼情況下你會說「這不是我」？",""]
+];
+const N=Q.length, KEY="samsir-daily-v1";
+let st={day:null,done:{}};
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null");if(s)st=Object.assign(st,s)}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
+function todayIndex(){
+  const s=new Date(START+"T00:00:00"),t=new Date();t.setHours(0,0,0,0);
+  if(t<s)return -1;let n=0;const d=new Date(s);
+  while(d<t){d.setDate(d.getDate()+1);const w=d.getDay();if(w!==0&&w!==6&&d<=t)n++}
+  return Math.min(n,N-1);
+}
+const $=id=>document.getElementById(id);
+const auto=todayIndex();
+let day=auto<0?0:auto;
+function render(){
+  const q=Q[day],w=Math.floor(day/5);
+  $("dayNum").textContent=(auto<0&&day===0)?"第 1 天 · 10 月 26 日開始":"第 "+(day+1)+" 天";
+  $("dayTheme").textContent="第 "+(w+1)+" 週｜"+WEEKS[w];
+  $("qText").textContent=q[1];
+  $("qType").textContent=q[0]===D?"錄影題":"語音題";
+  $("qType").className="tag "+q[0];
+  const hint=q[0]===D?q[2]+" 用手機相機錄影，再從相冊傳到微信群組。":(q[2]?q[2]+" ":"")+"在微信群組用語音回答。";
+  $("qHint").textContent=hint;
+  const d=st.done[day]||{};
+  [1,2,3].forEach(k=>{$("c"+k).checked=!!d[k];$("t"+k).classList.toggle("done",!!d[k])});
+  $("prev").disabled=day===0;$("next").disabled=day===N-1;
+  let total=0;for(const k in st.done){if(st.done[k][3])total++}
+  $("prog").style.width=(total/N*100)+"%";
+  $("progText").textContent="已答 "+total+" / "+N+" 題";
+  document.querySelectorAll(".wk").forEach((el,j)=>el.classList.toggle("now",j===w));
+}
+$("weeks").innerHTML=WEEKS.map((t,j)=>`<div class="wk"><span class="n">第 ${j+1} 週</span><span>${t}</span></div>`).join("");
+$("bank").innerHTML=WEEKS.map((t,j)=>`<div><h3>第 ${j+1} 週｜${t}</h3><ol start="${j*5+1}">${Q.slice(j*5,j*5+5).map(q=>`<li>${q[1]}${q[0]===D?"（錄影）":""}</li>`).join("")}</ol></div>`).join("");
+[1,2,3].forEach(k=>$("c"+k).addEventListener("change",e=>{st.done[day]=st.done[day]||{};st.done[day][k]=e.target.checked;save();render()}));
+$("prev").onclick=()=>{day=Math.max(0,day-1);render()};
+$("next").onclick=()=>{day=Math.min(N-1,day+1);render()};
+render();
+</script>
+
+</body>
+</html>
